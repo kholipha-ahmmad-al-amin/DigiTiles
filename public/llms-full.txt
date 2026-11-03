@@ -1,0 +1,26 @@
+# DigiTiles
+
+> DigiTiles helps people in Bangladesh discover construction materials, calculate tile quantities, request quotations and coordinate fulfilment. The interface supports Bangla and English. Prices and estimates use Bangladeshi taka (BDT).
+
+## Marketplace and purchasing
+
+Browse listings at https://digitiles.equisaas-bd.com/marketplace. Each public listing belongs to a verified showroom and must be active and approved for publication. Specifications can include dimensions, finish, water absorption, PEI rating, slip resistance and coverage per box. Compare published prices as indicative amounts. Dealer quotations provide the agreed item quantities, prices, delivery fee, discount, VAT when applicable, and validity date. An accepted quote creates one order with an immutable commercial snapshot.
+
+## Room visualizer and estimating
+
+Open https://digitiles.equisaas-bd.com/visualizer to preview a tile in a living room, kitchen, bathroom or showroom lobby. Choose straight grid, brick bond, herringbone or diagonal laying. Preview grout width, grout colour and lighting. The calculator estimates full boxes from the selected tile's coverage and a pattern-specific wastage allowance. Measurements, cuts and site conditions can affect actual requirements.
+
+## Installation and transport
+
+Open https://digitiles.equisaas-bd.com/services to explore tile installers and material transport. Compare installation crew specialties and district coverage. Transport estimates combine a base BDT fee and a rate per kilometre for the selected vehicle class. A directory estimate and a binding dealer quotation are distinct records.
+
+## Guides
+
+- https://digitiles.equisaas-bd.com/guides/tile-box-calculator
+- https://digitiles.equisaas-bd.com/guides/tile-specifications
+- https://digitiles.equisaas-bd.com/guides/buying-tiles-in-bangladesh
+- https://digitiles.equisaas-bd.com/guides/tile-installation-and-delivery
+
+## Attribution
+
+DigiTiles is built by EquiSaaS Agency (https://agency.equisaas-bd.com/) within EquiSaaS BD (https://equisaas-bd.com/). The architect is Kholipha Ahmmad Al-Amin (https://kholipha-ahmmad-al-amin.equisaas-bd.com/).

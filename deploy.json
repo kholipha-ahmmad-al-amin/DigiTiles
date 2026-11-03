@@ -1,0 +1,33 @@
+{
+  "projectName": "digitiles",
+  "displayName": "DigiTiles - Connected Construction Ecosystem for Bangladesh",
+  "github": {
+    "owner": "kholipha-ahmmad-al-amin",
+    "repo": "DigiTiles",
+    "visibility": "public",
+    "branch": "main",
+    "remoteUrl": "https://github.com/kholipha-ahmmad-al-amin/DigiTiles.git",
+    "singleFreshCommit": true,
+    "defaultCommitMessage": "feat: DigiTiles Connected Construction Marketplace and Services Ecosystem"
+  },
+  "vercel": {
+    "enabled": true,
+    "projectName": "digitiles",
+    "prod": true
+  },
+  "qualityGates": {
+    "runBuildBeforeDeploy": true,
+    "forbiddenGitPaths": [
+      "docs",
+      "DESIGN.md",
+      "data",
+      ".env",
+      ".env.local",
+      ".env.production",
+      ".env*",
+      ".vercel",
+      "test-results",
+      "playwright-report"
+    ]
+  }
+}
