@@ -1,0 +1,53 @@
+{
+  "projectName": "digitiles",
+  "displayName": "DigiTiles - Connected Construction Ecosystem for Bangladesh",
+  "auth": {
+    "requiredEmail": "kholifaahmadalamin@gmail.com"
+  },
+  "cloudflare": {
+    "enabled": true,
+    "accountId": "a038637c1e99a71da70dd72a1d85fcae",
+    "workerName": "digitiles-cloud-api",
+    "d1DatabaseName": "digitiles-prod-db",
+    "d1DatabaseId": "3f5d86a9-5a1a-4303-a7df-3ff40d713e49",
+    "kvNamespaceId": "6ef1531bed1b473899ff33af86597466",
+    "apiDomain": "https://api.digitiles.equisaas-bd.com",
+    "platformDomain": "https://digitiles.equisaas-bd.com"
+  },
+  "firebase": {
+    "enabled": true,
+    "projectId": "digitiles-bd",
+    "projectNumber": "700109702504",
+    "webAppId": "1:700109702504:web:8b4dfc2afc57b57e1f82dd"
+  },
+  "github": {
+    "owner": "kholipha-ahmmad-al-amin",
+    "repo": "DigiTiles",
+    "visibility": "public",
+    "branch": "main",
+    "remoteUrl": "https://github.com/kholipha-ahmmad-al-amin/DigiTiles.git",
+    "singleFreshCommit": true,
+    "defaultCommitMessage": "feat: DigiTiles Production Platform with Cloudflare D1, Firebase Auth and 3D Executive Pitch Deck"
+  },
+  "vercel": {
+    "enabled": true,
+    "projectName": "digitiles",
+    "prod": true
+  },
+  "qualityGates": {
+    "runBuildBeforeDeploy": true,
+    "forbiddenGitPaths": [
+      "docs",
+      "DESIGN.md",
+      "data",
+      ".env",
+      ".env.local",
+      ".env.production",
+      ".env*",
+      ".vercel",
+      ".wrangler",
+      "test-results",
+      "playwright-report"
+    ]
+  }
+}

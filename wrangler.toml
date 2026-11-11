@@ -1,0 +1,23 @@
+name = "digitiles-cloud-api"
+main = "cloudflare/worker.js"
+compatibility_date = "2025-09-24"
+account_id = "a038637c1e99a71da70dd72a1d85fcae"
+workers_dev = true
+
+routes = [
+  { pattern = "api.digitiles.equisaas-bd.com", custom_domain = true }
+]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "digitiles-prod-db"
+database_id = "3f5d86a9-5a1a-4303-a7df-3ff40d713e49"
+
+[[kv_namespaces]]
+binding = "DIGITILES_KV"
+id = "6ef1531bed1b473899ff33af86597466"
+
+[vars]
+FIREBASE_PROJECT_ID = "digitiles-bd"
+PLATFORM_DOMAIN = "https://digitiles.equisaas-bd.com"
+SYNC_SHARED_KEY = "dgt_cf_d1_sync_2026_equisaas_bd"
