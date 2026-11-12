@@ -1,0 +1,12 @@
+{
+  "auth": {
+    "providers": {
+      "anonymous": true,
+      "emailPassword": true,
+      "googleSignIn": {
+        "oAuthBrandDisplayName": "DigiTiles Bangladesh",
+        "supportEmail": "kholifaahmadalamin@gmail.com"
+      }
+    }
+  }
+}
