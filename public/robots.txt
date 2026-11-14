@@ -1,0 +1,13 @@
+User-agent: *
+User-agent: Googlebot
+User-agent: Bingbot
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: PerplexityBot
+User-agent: Google-Extended
+Allow: /
+Disallow: /api/
+Disallow: /workspace
+Disallow: /auth
+
+Sitemap: https://digitiles.equisaas-bd.com/sitemap.xml

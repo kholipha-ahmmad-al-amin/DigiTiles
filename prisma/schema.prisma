@@ -1,0 +1,268 @@
+// DigiTiles Relational Schema (Document 05 Specification)
+// Supports PostgreSQL (Neon / Supabase Free Tier) and SQLite
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String                   @id @default(cuid())
+  phone           String                   @unique
+  fullName        String
+  email           String?
+  roles           String[]                 // ["CUSTOMER", "DEALER", "ADMIN"]
+  activeRole      String                   @default("CUSTOMER")
+  preferredLocale String                   @default("bn")
+  createdAt       DateTime                 @default(now())
+  updatedAt       DateTime                 @updatedAt
+  memberships     OrganizationMembership[]
+  rfqs            Rfq[]
+  orders          Order[]
+  notifications   Notification[]
+  auditLogs       AuditLog[]
+}
+
+model OtpChallenge {
+  id         String    @id @default(cuid())
+  phone      String
+  codeHash   String
+  attempts   Int       @default(0)
+  expiresAt  DateTime
+  consumedAt DateTime?
+  createdAt  DateTime  @default(now())
+
+  @@index([phone])
+}
+
+model Organization {
+  id                 String                   @id @default(cuid())
+  slug               String                   @unique
+  tradeNameEn        String
+  tradeNameBn        String
+  descriptionEn      String
+  descriptionBn      String
+  primaryDistrict    String
+  contactPhone       String
+  verificationStatus String                   @default("DRAFT") // DRAFT, SUBMITTED, UNDER_REVIEW, VERIFIED, REJECTED, SUSPENDED, EXPIRED
+  tradeLicenseNo     String?
+  tinNumber          String?
+  ownerNid           String?
+  verifiedAt         DateTime?
+  moderationNote     String?
+  createdAt          DateTime                 @default(now())
+  updatedAt          DateTime                 @updatedAt
+  branches           Branch[]
+  memberships        OrganizationMembership[]
+  listings           DealerListing[]
+  rfqs               Rfq[]
+  quotations         Quotation[]
+  orders             Order[]
+}
+
+model Branch {
+  id             String          @id @default(cuid())
+  organizationId String
+  nameEn         String
+  nameBn         String
+  district       String
+  addressEn      String
+  addressBn      String
+  contactPhone   String
+  isMainBranch   Boolean         @default(false)
+  organization   Organization    @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  listings       DealerListing[]
+  stockLots      StockLot[]
+
+  @@index([organizationId])
+}
+
+model OrganizationMembership {
+  id             String       @id @default(cuid())
+  organizationId String
+  userId         String
+  memberRole     String       @default("STAFF") // OWNER, MANAGER, STAFF
+  isActive       Boolean      @default(true)
+  createdAt      DateTime     @default(now())
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([organizationId, userId])
+}
+
+model Category {
+  id            String          @id @default(cuid())
+  slug          String          @unique
+  nameEn        String
+  nameBn        String
+  descriptionEn String
+  descriptionBn String
+  listings      DealerListing[]
+}
+
+model DealerListing {
+  id                 String       @id @default(cuid())
+  organizationId     String
+  branchId           String
+  categoryId         String
+  sku                String
+  titleEn            String
+  titleBn            String
+  brand              String
+  materialType       String
+  dimensionsMm       String
+  surfaceFinish      String
+  grade              String
+  waterAbsorption    String
+  peiRating          String?
+  slipResistance     String?
+  sqftPerBox         Float
+  piecesPerBox       Int
+  pricePerSqftBdt    Float
+  pricePerBoxBdt     Float
+  minOrderBoxes      Int          @default(5)
+  stockBoxes         Int          @default(100)
+  servicingDistricts String[]
+  swatchPattern      String
+  visibilityStatus   String       @default("ACTIVE") // DRAFT, ACTIVE, PAUSED
+  moderationStatus   String       @default("PENDING_MODERATION") // PENDING_MODERATION, APPROVED, REJECTED
+  moderationNote     String?
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+  organization       Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  branch             Branch       @relation(fields: [branchId], references: [id])
+  category           Category     @relation(fields: [categoryId], references: [id])
+  stockLots          StockLot[]
+
+  @@index([organizationId, visibilityStatus, moderationStatus])
+  @@index([categoryId])
+}
+
+model StockLot {
+  id             String        @id @default(cuid())
+  listingId      String
+  branchId       String
+  batchCode      String
+  shadeCode      String
+  caliberMm      Float
+  availableBoxes Int
+  updatedAt      DateTime      @updatedAt
+  listing        DealerListing @relation(fields: [listingId], references: [id])
+  branch         Branch        @relation(fields: [branchId], references: [id])
+
+  @@unique([listingId, branchId, batchCode, shadeCode, caliberMm])
+  @@index([branchId])
+}
+
+model Rfq {
+  id               String       @id @default(cuid())
+  rfqNumber        String       @unique
+  customerUserId   String
+  organizationId   String
+  deliveryDistrict String
+  deliveryAddress  String
+  preferredWindow  String
+  projectNotes     String?
+  status           String       @default("OPEN") // OPEN, QUOTED, ACCEPTED, CONVERTED (legacy), CANCELLED
+  convertedOrderId String?
+  itemsJson        Json
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  customer         User         @relation(fields: [customerUserId], references: [id])
+  organization     Organization @relation(fields: [organizationId], references: [id])
+  quotations       Quotation[]
+
+  @@index([customerUserId])
+  @@index([organizationId])
+}
+
+model Quotation {
+  id             String       @id @default(cuid())
+  quoteNumber    String       @unique
+  rfqId          String
+  organizationId String
+  issuedByUserId String
+  versionNumber  Int          @default(1)
+  itemsJson      Json
+  subtotalBdt    Float
+  deliveryFeeBdt Float
+  vatBdt         Float        @default(0)
+  discountBdt    Float        @default(0)
+  totalAmountBdt Float
+  validUntil     DateTime
+  paymentTerms   String
+  deliveryTerms  String
+  commercialSnapshot Json?
+  status         String       @default("SENT") // SENT, ACCEPTED, SUPERSEDED, DECLINED, EXPIRED, REJECTED
+  createdAt      DateTime     @default(now())
+  rfq            Rfq          @relation(fields: [rfqId], references: [id], onDelete: Cascade)
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  order          Order?
+
+  @@unique([rfqId, versionNumber])
+}
+
+model Order {
+  id                   String       @id @default(cuid())
+  orderNumber          String       @unique
+  rfqId                String       @unique
+  quotationId          String       @unique
+  customerUserId       String
+  organizationId       String
+  state                String       @default("PENDING_CONFIRMATION")
+  currency             String       @default("BDT")
+  buyerSnapshot        Json
+  sellerSnapshot       Json
+  itemSnapshots        Json
+  pricingSnapshot      Json
+  commercialSnapshot   Json?
+  deliveryCoordination Json
+  preferredCrew        Json?
+  stockReservation     Json?
+  disputeJson          Json?
+  stateHistoryJson     Json
+  createdAt            DateTime     @default(now())
+  updatedAt            DateTime     @updatedAt
+  quotation            Quotation    @relation(fields: [quotationId], references: [id])
+  customer             User         @relation(fields: [customerUserId], references: [id])
+  organization         Organization @relation(fields: [organizationId], references: [id])
+
+  @@index([customerUserId])
+  @@index([organizationId])
+  @@index([state])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  category  String
+  titleEn   String
+  titleBn   String
+  bodyEn    String
+  bodyBn    String
+  linkPath  String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isRead])
+}
+
+model AuditLog {
+  id          String   @id @default(cuid())
+  actorUserId String
+  actorName   String
+  actorRole   String
+  action      String
+  entityType  String
+  entityId    String
+  summary     String
+  createdAt   DateTime @default(now())
+  actor       User     @relation(fields: [actorUserId], references: [id])
+
+  @@index([createdAt])
+}
