@@ -1,0 +1,15 @@
+import { handleMcpHttpRequest } from "@/lib/mcp/servers";
+
+export const dynamic = "force-dynamic";
+
+export async function GET(request: Request) {
+  return handleMcpHttpRequest(request, "catalogue", true);
+}
+
+export async function POST(request: Request) {
+  return handleMcpHttpRequest(request, "catalogue", true);
+}
+
+export async function OPTIONS(request: Request) {
+  return handleMcpHttpRequest(request, "catalogue", true);
+}

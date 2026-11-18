@@ -1,0 +1,60 @@
+{
+  "$schema": "https://modelcontextprotocol.io/schema/mcp.json",
+  "mcpServers": {
+    "digitiles-catalogue-mcp": {
+      "type": "http",
+      "url": "https://digitiles.equisaas-bd.com/mcp",
+      "description": "Built Server 1/5: Bilingual (bn/en) hybrid catalogue search and technical spec inspection over verified showrooms and approved listings."
+    },
+    "digitiles-catalogue-stdio": {
+      "command": "node",
+      "args": ["scripts/mcp-stdio.mjs", "--server", "catalogue"],
+      "description": "Stdio transport runner for digitiles-catalogue-mcp."
+    },
+    "digitiles-estimator-mcp": {
+      "type": "http",
+      "url": "https://digitiles.equisaas-bd.com/mcp/estimator",
+      "description": "Built Server 2/5: Deterministic tile box and laying-pattern wastage calculator (5% straight, 10% brick, 15% herringbone)."
+    },
+    "digitiles-services-mcp": {
+      "type": "http",
+      "url": "https://digitiles.equisaas-bd.com/mcp/services",
+      "description": "Built Server 3/5: Verified installation crew discovery and district material transport fare estimator."
+    },
+    "digitiles-governance-mcp": {
+      "type": "http",
+      "url": "https://digitiles.equisaas-bd.com/mcp/governance",
+      "description": "Built Server 4/5: Zero-PII marketplace metrics, 7-state verification rules, and 9-state order lifecycle inspection."
+    },
+    "digitiles-d1-telemetry-mcp": {
+      "type": "http",
+      "url": "https://api.digitiles.equisaas-bd.com/mcp",
+      "description": "Built Server 5/5: Edge Cloudflare Worker + D1 telemetry, SQLite schema contract, and Workers AI Llama Guard 3 safety screening."
+    },
+    "firebase-mcp-server": {
+      "command": "npx",
+      "args": ["-y", "firebase-tools@latest", "mcp"],
+      "description": "Used Server 1/5: Official Firebase CLI MCP server used for Auth configuration and provisioned accounts on digitiles-bd."
+    },
+    "cloudflare-docs-mcp": {
+      "type": "http",
+      "url": "https://docs.mcp.cloudflare.com/mcp",
+      "description": "Used Server 2/5: Official Cloudflare Docs Streamable HTTP MCP server used for Workers, D1, KV, Workers AI, and vinext references."
+    },
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp"],
+      "description": "Used Server 3/5: Context7 MCP server used for version-pinned Next.js 14 App Router, React 19, Prisma, and Tailwind docs."
+    },
+    "chrome-devtools-mcp": {
+      "command": "npx",
+      "args": ["-y", "chrome-devtools-mcp@latest"],
+      "description": "Used Server 4/5: Chrome DevTools MCP server used for DOM, print stylesheet, network latency, and WCAG 2.1 AA contrast checks."
+    },
+    "sequential-thinking": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
+      "description": "Used Server 5/5: Sequential Thinking MCP server used to decompose state machines and Contextual RAG architecture."
+    }
+  }
+}
